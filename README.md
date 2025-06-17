@@ -11,7 +11,6 @@ Este proyecto es una aplicación backend sencilla de gestión de tareas construi
 - Gradle (incluido en el wrapper del proyecto)
 - Postman o similar para pruebas
 
----
 
 ## Ejecucion del proyecto
 
@@ -22,6 +21,30 @@ com.puce.claudsdaily.ClaudsDailyApplication
 
 - El servidor se iniciará en:
 http://localhost:8080
+
+## Pruebas de Endpoint para garantizar funcionamiento 
+
+Si se desea realizar las pruebas referentes al funcionamiento del proyecto, ejecutar en Postman las siguientes direcciones en base a la prueba que desee realiazr:
+
+Usuarios
+
+- POST /api/users - Crear usuario
+
+- GET /api/users - Obtener todos
+
+Tareas (Assignments)
+
+- POST /api/assignments - Crear tarea (requiere user)
+
+- GET /api/assignments - Todas las tareas
+
+- GET /api/assignments/{id} - Por ID
+
+- GET /api/assignments/user/{userId} - Por usuario
+
+- PUT /api/assignments/{id} - Actualizar
+
+- DELETE /api/assignments/{id} - Eliminar
 
 ## Acceso al H2 Database
 
@@ -34,3 +57,9 @@ Puedes acceder a la consola H2 para ver los datos:
 - Usuario: sa
 
 - Contraseña: (vacía)
+  
+Para verificar la informacion que se ha guardado de las dos entidades utilizar:
+
+- Select * from USERS;
+
+- Select * from Assignments;
