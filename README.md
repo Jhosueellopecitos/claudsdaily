@@ -26,13 +26,13 @@ http://localhost:8080
 
 Si se desea realizar las pruebas referentes al funcionamiento del proyecto, ejecutar en Postman las siguientes direcciones en base a la prueba que desee realiazr:
 
-Usuarios
+**Usuarios**
 
 - POST /api/users - Crear usuario
 
 - GET /api/users - Obtener todos
 
-Tareas (Assignments)
+**Tareas (Assignments)**
 
 - POST /api/assignments - Crear tarea (requiere user)
 
