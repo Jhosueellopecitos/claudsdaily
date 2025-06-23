@@ -1,0 +1,157 @@
+{
+	"info": {
+		"_postman_id": "8e01bd3f-f7a3-4e81-8554-384808e63cfc",
+		"name": "ClaudsDaily API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45258014",
+		"_collection_link": "https://jhosue-6452059.postman.co/workspace/jhosue's-Workspace~d4d11078-b825-46f4-8c1a-e6d309ed0e0a/collection/45258014-8e01bd3f-f7a3-4e81-8554-384808e63cfc?action=share&source=collection_link&creator=45258014"
+	},
+	"item": [
+		{
+			"name": "Create User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"clauds\",\n  \"email\": \"clauds@example.com\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/users",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/users",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Assignment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Tarea de ejemplo\",\n  \"description\": \"Estudiar Kotlin\",\n  \"dueDate\": \"2025-06-23T20:00:00\",\n  \"user\": {\n    \"id\": \"UUID_DEL_USUARIO\",\n    \"username\": \"clauds\",\n    \"email\": \"clauds@example.com\"\n  }\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/assignments",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"assignments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Assignments",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/assignments",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"assignments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Assignment",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/assignments/479e169d-b7bc-4415-bd55-0401be9100a3",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"assignments",
+						"479e169d-b7bc-4415-bd55-0401be9100a3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/assignments/{{users_id}}\n\n",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"assignments",
+						"{{users_id}}\n\n"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080/api"
+		}
+	]
+}
