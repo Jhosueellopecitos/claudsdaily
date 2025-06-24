@@ -24,13 +24,23 @@ http://localhost:8080
 
 ## Pruebas de Endpoint para garantizar funcionamiento 
 
-Si se desea realizar las pruebas referentes al funcionamiento del proyecto, ejecutar en Postman las siguientes direcciones en base a la prueba que desee realiazr:
+Si se desea realizar las pruebas referentes al funcionamiento del proyecto, ejecutar en Postman las siguientes direcciones en base a la prueba que desee realizar:
+
+*En las secciones con {id} reemplazarlo con la id del usuario o la  tarea*
 
 **Usuarios**
 
 - POST /api/users - Crear usuario
 
 - GET /api/users - Obtener todos
+
+- GET /api/users/{id} - Por ID
+
+- PUT /api/users/{id} - Actualizar
+
+- DELETE /api/users/{id} - Eliminar
+
+
 
 **Tareas (Assignments)**
 
@@ -45,6 +55,7 @@ Si se desea realizar las pruebas referentes al funcionamiento del proyecto, ejec
 - PUT /api/assignments/{id} - Actualizar
 
 - DELETE /api/assignments/{id} - Eliminar
+
 
 ## Acceso al H2 Database
 
