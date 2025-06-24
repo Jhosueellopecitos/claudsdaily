@@ -51,6 +51,33 @@
 			"response": []
 		},
 		{
+			"name": "Mod Users",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"jhosuel\",\r\n  \"email\": \"jhosuel@example.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/users/{id}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Create Assignment",
 			"request": {
 				"method": "POST",
@@ -78,9 +105,21 @@
 		},
 		{
 			"name": "Get All Assignments",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "{{base_url}}/assignments",
 					"host": [
@@ -88,6 +127,33 @@
 					],
 					"path": [
 						"assignments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mod Assignment",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Tarea de ejemplo2\",\r\n  \"description\": \"Estudiar Kotlin\",\r\n  \"dueDate\": \"2025-06-23T20:00:00\",\r\n  \"user\": {\r\n    \"id\": \"08961f7d-6e2e-40ea-9c68-7d1471981abe\",\r\n    \"username\": \"jhosuel\",\r\n    \"email\": \"jhosuel@example.com\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/assignments/{id}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"assignments",
+						"{id}"
 					]
 				}
 			},
