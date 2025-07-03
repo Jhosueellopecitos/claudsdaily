@@ -1,40 +1,55 @@
 package com.puce.claudsdaily.controller
 
-
-import com.puce.claudsdaily.models.entities.Users
+import com.puce.claudsdaily.dto.request.UserRequest
+import com.puce.claudsdaily.dto.response.UserResponse
+import com.puce.claudsdaily.exception.NotFoundException
+import com.puce.claudsdaily.mapper.toResponse
 import com.puce.claudsdaily.services.UserService
+import jakarta.validation.Valid
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
 @RequestMapping("/api/users")
-class UserController(private val userService: UserService) {
+class UserController(
+    private val userService: UserService
+) {
 
+    /** GET  /api/users  – lista completa */
     @GetMapping
-    fun getAllUsers(): List<Users> = userService.getAllUsers()
+    fun getAll(): List<UserResponse> =
+        userService.getAllUsers().map { it.toResponse() }
 
+    /** GET  /api/users/{id}  – detalle */
     @GetMapping("/{id}")
-    fun getUserById(@PathVariable id: UUID): ResponseEntity<Users> {
-        val user = userService.getUserById(id)
-        return if (user != null) ResponseEntity.ok(user)
-        else ResponseEntity.notFound().build()
-    }
+    fun getById(@PathVariable id: UUID): UserResponse =
+        userService.getUserById(id)?.toResponse()
+            ?: throw NotFoundException("User $id not found")
 
+    /** POST  /api/users  – crear */
     @PostMapping
-    fun createUser(@RequestBody user: Users): Users = userService.createUser(user)
+    @ResponseStatus(HttpStatus.CREATED)
+    fun create(@Valid @RequestBody req: UserRequest): UserResponse =
+        userService.createUser(req).toResponse()
 
+    /** PUT  /api/users/{id}  – actualizar */
     @PutMapping("/{id}")
-    fun updateUser(@PathVariable id: UUID, @RequestBody user: Users): ResponseEntity<Users> {
-        val existing = userService.getUserById(id) ?: return ResponseEntity.notFound().build()
-        val updated = userService.createUser(user.copy(id = id))
-        return ResponseEntity.ok(updated)
+    fun update(
+        @PathVariable id: UUID,
+        @Valid @RequestBody req: UserRequest
+    ): UserResponse {
+        val updated = userService.updateUser(id, req)
+            ?: throw NotFoundException("User $id not found")
+        return updated.toResponse()
     }
 
+    /** DELETE  /api/users/{id}  – eliminar */
     @DeleteMapping("/{id}")
-    fun deleteUser(@PathVariable id: UUID): ResponseEntity<Void> {
-        val existing = userService.getUserById(id) ?: return ResponseEntity.notFound().build()
-        userService.deleteUser(id)
-        return ResponseEntity.noContent().build()
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun delete(@PathVariable id: UUID) {
+        val ok = userService.deleteUser(id)
+        if (!ok) throw NotFoundException("User $id not found")
     }
 }

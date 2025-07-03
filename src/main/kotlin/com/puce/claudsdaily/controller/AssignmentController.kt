@@ -1,44 +1,66 @@
 package com.puce.claudsdaily.controller
 
-import com.puce.claudsdaily.models.entities.Assignment
+import com.puce.claudsdaily.dto.request.AssignmentRequest
+import com.puce.claudsdaily.dto.response.AssignmentResponse
+import com.puce.claudsdaily.exception.NotFoundException
+import com.puce.claudsdaily.mapper.toResponse
 import com.puce.claudsdaily.services.AssignmentService
-import org.springframework.http.ResponseEntity
+import com.puce.claudsdaily.services.UserService
+import jakarta.validation.Valid
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
 @RequestMapping("/api/assignments")
-class AssignmentController(private val assignmentService: AssignmentService) {
+class AssignmentController(
+    private val assignmentService: AssignmentService,
+    private val userService: UserService
+) {
 
+    /** GET  /api/assignments  – lista completa */
     @GetMapping
-    fun getAll(): List<Assignment> = assignmentService.getAllAssignments()
+    fun getAll(): List<AssignmentResponse> =
+        assignmentService.getAllAssignments().map { it.toResponse() }
 
+    /** GET  /api/assignments/user/{userId}  – filtrar por usuario */
     @GetMapping("/user/{userId}")
-    fun getByUserId(@PathVariable userId: UUID): List<Assignment> =
-        assignmentService.getAssignmentsByUserId(userId)
+    fun getByUser(@PathVariable userId: UUID): List<AssignmentResponse> =
+        assignmentService.getAssignmentsByUserId(userId).map { it.toResponse() }
 
+    /** GET  /api/assignments/{id}  – detalle */
     @GetMapping("/{id}")
-    fun getById(@PathVariable id: UUID): ResponseEntity<Assignment> {
-        val found = assignmentService.getAssignmentById(id)
-        return if (found != null) ResponseEntity.ok(found)
-        else ResponseEntity.notFound().build()
-    }
+    fun getById(@PathVariable id: UUID): AssignmentResponse =
+        assignmentService.getAssignmentById(id)?.toResponse()
+            ?: throw NotFoundException("Assignment $id not found")
 
+    /** POST  /api/assignments  – crear */
     @PostMapping
-    fun create(@RequestBody assignment: Assignment): Assignment =
-        assignmentService.createAssignment(assignment)
+    @ResponseStatus(HttpStatus.CREATED)
+    fun create(@Valid @RequestBody req: AssignmentRequest): AssignmentResponse {
+        val user = userService.getUserById(req.userId)
+            ?: throw NotFoundException("User ${req.userId} not found")
 
-    @PutMapping("/{id}")
-    fun update(@PathVariable id: UUID, @RequestBody assignment: Assignment): ResponseEntity<Assignment> {
-        val existing = assignmentService.getAssignmentById(id) ?: return ResponseEntity.notFound().build()
-        val updated = assignmentService.createAssignment(assignment.copy(id = id))
-        return ResponseEntity.ok(updated)
+        val created = assignmentService.createAssignment(req, user)
+        return created.toResponse()
     }
 
+    /** PUT  /api/assignments/{id}  – actualizar */
+    @PutMapping("/{id}")
+    fun update(
+        @PathVariable id: UUID,
+        @Valid @RequestBody req: AssignmentRequest
+    ): AssignmentResponse {
+        val updated = assignmentService.updateAssignment(id, req)
+            ?: throw NotFoundException("Assignment $id not found")
+        return updated.toResponse()
+    }
+
+    /** DELETE  /api/assignments/{id}  – eliminar */
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: UUID): ResponseEntity<Void> {
-        val existing = assignmentService.getAssignmentById(id) ?: return ResponseEntity.notFound().build()
-        assignmentService.deleteAssignment(id)
-        return ResponseEntity.noContent().build()
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun delete(@PathVariable id: UUID) {
+        val ok = assignmentService.deleteAssignment(id)
+        if (!ok) throw NotFoundException("Assignment $id not found")
     }
 }
