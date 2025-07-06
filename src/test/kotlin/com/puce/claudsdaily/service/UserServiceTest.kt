@@ -1,5 +1,6 @@
 package com.puce.claudsdaily.service
 
+import com.puce.claudsdaily.dto.request.UserRequest
 import com.puce.claudsdaily.models.entities.Users
 import com.puce.claudsdaily.repositories.UserRepository
 import com.puce.claudsdaily.services.UserService
@@ -56,12 +57,15 @@ class UserServiceTest {
 
     @Test
     fun `createUser saves and returns user`() {
-        val user = Users(UUID.randomUUID(), "clauds", "clauds@example.com")
-        every { userRepository.save(user) } returns user
+        val req   = UserRequest("clauds", "clauds@example.com")   // DTO
+        val saved = Users(UUID.randomUUID(), req.username, req.email)
 
-        val result = userService.createUser(user)
+        every { userRepository.save(any<Users>()) } returns saved
+
+        val result = userService.createUser(req)
 
         assertEquals("clauds", result.username)
-        verify { userRepository.save(user) }
+        verify { userRepository.save(any<Users>()) }
     }
 }
+
