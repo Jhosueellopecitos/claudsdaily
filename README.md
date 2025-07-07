@@ -18,10 +18,13 @@ Este proyecto es una aplicación backend sencilla de gestión de tareas construi
 - Abre el proyecto en IntelliJ.
 
 - Ejecutar el docker-compose primero:
+```
 docker-compose up -d
-
+```
 - Ejecuta la clase principal:
+```
 com.puce.claudsdaily.ClaudsDailyApplication
+```
 
 - El servidor se iniciará en:
 
@@ -31,8 +34,10 @@ http://localhost:8080
 
 - La base de datos va a correr en el puerto 5432
 
-- Ejecutar el siguiente comando para bajar el docker
+- Ejecutar el siguiente comando para bajar el docker:
+```
 docker-compose down
+```
 
 ## Pruebas de Endpoint para garantizar funcionamiento 
 
