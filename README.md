@@ -24,7 +24,10 @@ docker-compose up -d
 com.puce.claudsdaily.ClaudsDailyApplication
 
 - El servidor se iniciará en:
+
+```
 http://localhost:8080
+```
 
 - La base de datos va a correr en el puerto 5432
 
@@ -77,7 +80,9 @@ Si se desea realizar las pruebas referentes al funcionamiento del proyecto, ejec
 
 Puedes acceder a pgadmin para ver los datos:
 
-[Visita la url](http://localhost:5050)
+```
+http://localhost:5050
+```
 
 Ahora inicia sesion en el Pgadmin
 
