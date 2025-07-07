@@ -17,7 +17,7 @@ Este proyecto es una aplicación backend sencilla de gestión de tareas construi
 
 - Abre el proyecto en IntelliJ.
 
--Ejecutar el docker-compose primero:
+- Ejecutar el docker-compose primero:
 docker-compose up -d
 
 - Ejecuta la clase principal:
@@ -82,12 +82,12 @@ Para verificar la informacion que se ha guardado de las dos entidades utilizar:
 
 1. En el panel izquierdo, hacer click derecho sobre servers, create y server
 2. En la pestaña "General" poner un nombre como Local
-3. En la pestaña **Connection**, llena los siguientes datos
-   -Host name: db
-   -Port:5432
-   -Username: postgres
-   -Password: postgres
-   -Marcar "Save Password"
+3. En la pestaña **Connection**, llena los siguientes datos:
+   - Host name: db
+   - Port:5432
+   - Username: postgres
+   - Password: postgres
+   - Marcar "Save Password"
 4. Haz click en Save
 
 Una vez que se conecte explora la base de datos hasta las tablas 
