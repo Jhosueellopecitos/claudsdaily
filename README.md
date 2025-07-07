@@ -1,6 +1,6 @@
 # 📝 ClaudsDaily - Aplicación de Tareas
 
-Este proyecto es una aplicación backend sencilla de gestión de tareas construida con **Kotlin** y **Spring Boot**. Incluye un CRUD para usuarios y tareas (`Assignments`) usando una base de datos embebida **H2**.
+Este proyecto es una aplicación backend sencilla de gestión de tareas construida con **Kotlin** y **Spring Boot**. Incluye un CRUD para usuarios y tareas (`Assignments`) usando una base de datos externa como Postgresql.
 
 ---
 
@@ -10,17 +10,27 @@ Este proyecto es una aplicación backend sencilla de gestión de tareas construi
 - IntelliJ IDEA (recomendado)
 - Gradle (incluido en el wrapper del proyecto)
 - Postman o similar para pruebas
-
+- Docker
+- Pgadmin
 
 ## Ejecucion del proyecto
 
 - Abre el proyecto en IntelliJ.
+
+-Ejecutar el docker-compose primero:
+
+docker-compose up -d
 
 - Ejecuta la clase principal:
 com.puce.claudsdaily.ClaudsDailyApplication
 
 - El servidor se iniciará en:
 http://localhost:8080
+
+- La base de datos va a correr en el puerto 5432
+
+- Ejecutar el siguiente comando para bajar el docker
+docker-compose down
 
 ## Pruebas de Endpoint para garantizar funcionamiento 
 
@@ -57,20 +67,30 @@ Si se desea realizar las pruebas referentes al funcionamiento del proyecto, ejec
 - DELETE /api/assignments/{id} - Eliminar
 
 
-## Acceso al H2 Database
+## Acceso al Pgadmin
 
-Puedes acceder a la consola H2 para ver los datos:
+Puedes acceder a pgadmin para ver los datos:
 
-- URL: http://localhost:8080/h2-console
+http://localhost:5050
 
-- JDBC URL: jdbc:h2:mem:testdb
+Ahora inicia sesion en el Pgadmin
 
-- Usuario: sa
+- Correo: admin@local.com
 
-- Contraseña: (vacía)
+- Contraseña: admin123
   
 Para verificar la informacion que se ha guardado de las dos entidades utilizar:
 
-- Select * from USERS;
+1. En el panel izquierdo, hacer click derecho sobre servers, create y server
+2. En la pestaña "General" poner un nombre como Local
+3. En la pestaña **Connection**, llena los siguientes datos
+   -Host name: db
+   -Port:5432
+   -Username: postgres
+   -Password: postgres
+   -Marcar "Save Password"
+4. Haz click en Save
 
-- Select * from Assignments;
+Una vez que se conecte explora la base de datos hasta las tablas 
+
+- Hacer click derecho en una tabla, dar click en "View/Edit Data" y despues "All Rows", ahi se desplegara la informacion de las tablas
