@@ -77,7 +77,7 @@ Si se desea realizar las pruebas referentes al funcionamiento del proyecto, ejec
 
 Puedes acceder a pgadmin para ver los datos:
 
-http://localhost:5050
+[Visita la url](http://localhost:5050)
 
 Ahora inicia sesion en el Pgadmin
 
