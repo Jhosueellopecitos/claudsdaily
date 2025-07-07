@@ -66,6 +66,13 @@ Si se desea realizar las pruebas referentes al funcionamiento del proyecto, ejec
 - DELETE /api/assignments/{id} - Eliminar
 
 
+## Ejecucion de test
+
+1. Abrir el proyecto en IntelliJ IDEA.
+2. En el panel izquierdo (proyect) navegar hacia la ubicacion de los test
+3. Al entrar en el test, hacer clic derecho sobre la clase de la prueba y dar click en run "Nombredeltest"
+
+
 ## Acceso al Pgadmin
 
 Puedes acceder a pgadmin para ver los datos:
