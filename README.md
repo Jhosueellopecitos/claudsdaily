@@ -18,7 +18,6 @@ Este proyecto es una aplicación backend sencilla de gestión de tareas construi
 - Abre el proyecto en IntelliJ.
 
 -Ejecutar el docker-compose primero:
-
 docker-compose up -d
 
 - Ejecuta la clase principal:
