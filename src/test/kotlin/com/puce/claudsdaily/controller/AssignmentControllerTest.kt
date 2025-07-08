@@ -90,5 +90,90 @@ class AssignmentControllerTest(
 
         verify(assignmentService).updateAssignment(id, req)
     }
+    @Test
+    fun `GET assignments returns 200 with list`() {
+        val list = listOf(
+            Assignment(UUID.randomUUID(), "T1", null, null, user),
+            Assignment(UUID.randomUUID(), "T2", null, null, user)
+        )
+        whenever(assignmentService.getAllAssignments()).thenReturn(list)
+
+        mvc.perform(get("/api/assignments"))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.length()", `is`(2)))
+    }
+
+
+    @Test
+    fun `GET assignment by id returns 200`() {
+        val a = Assignment(UUID.randomUUID(), "Task", null, null, user)
+        whenever(assignmentService.getAssignmentById(a.id!!)).thenReturn(a)
+
+        mvc.perform(get("/api/assignments/${a.id}"))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.title", `is`("Task")))
+    }
+
+
+    @Test
+    fun `GET assignments by user returns 200`() {
+        val list = listOf(Assignment(UUID.randomUUID(), "T", null, null, user))
+        whenever(assignmentService.getAssignmentsByUserId(userId)).thenReturn(list)
+
+        mvc.perform(get("/api/assignments/user/$userId"))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.length()", `is`(1)))
+    }
+
+
+    @Test
+    fun `PUT assignments returns 200`() {
+        val id = UUID.randomUUID()
+        val req = AssignmentRequest("Upd", "upd", null, userId)
+        val updated = Assignment(id, req.title, req.description, null, user)
+
+        whenever(assignmentService.updateAssignment(id, req)).thenReturn(updated)
+
+        mvc.perform(
+            put("/api/assignments/$id")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(om.writeValueAsString(req))
+        )
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.title", `is`("Upd")))
+    }
+
+
+    @Test
+    fun `DELETE assignment returns 204`() {
+        val id = UUID.randomUUID()
+        whenever(assignmentService.deleteAssignment(id)).thenReturn(true)
+
+        mvc.perform(delete("/api/assignments/$id"))
+            .andExpect(status().isNoContent)
+    }
+
+
+    @Test
+    fun `DELETE assignment returns 404 when not found`() {
+        val id = UUID.randomUUID()
+        whenever(assignmentService.deleteAssignment(id)).thenReturn(false)
+
+        mvc.perform(delete("/api/assignments/$id"))
+            .andExpect(status().isNotFound)
+    }
+
+
+    @Test
+    fun `POST assignments returns 400 when title blank`() {
+        val badReq = AssignmentRequest("", null, null, userId) // title en blanco
+
+        mvc.perform(
+            post("/api/assignments")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(om.writeValueAsString(badReq))
+        )
+            .andExpect(status().isBadRequest)
+    }
 }
 

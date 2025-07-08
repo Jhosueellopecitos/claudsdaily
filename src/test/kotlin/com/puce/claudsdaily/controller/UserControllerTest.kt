@@ -48,5 +48,57 @@ class UserControllerTest {
         mvc.perform(get("/api/users/$id"))
             .andExpect(status().isNotFound)
     }
+
+    // --------------- LIST (GET /api/users) ---------------
+    @Test
+    fun `GET users returns 200 with list`() {
+        val list = listOf(
+            Users(UUID.randomUUID(), "a", "a@x.com"),
+            Users(UUID.randomUUID(), "b", "b@x.com")
+        )
+        whenever(userService.getAllUsers()).thenReturn(list)
+
+        mvc.perform(get("/api/users"))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.length()", `is`(2)))
+    }
+
+    // --------------- UPDATE (PUT /api/users) ---------------
+    @Test
+    fun `PUT users returns 200`() {
+        val id = UUID.randomUUID()
+        val req = UserRequest("new", "new@x.com")
+        val updated = Users(id, req.username, req.email)
+
+        whenever(userService.updateUser(id, req)).thenReturn(updated)
+
+        mvc.perform(
+            put("/api/users/$id")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(om.writeValueAsString(req))
+        ).andExpect(status().isOk)
+            .andExpect(jsonPath("$.username", `is`("new")))
+    }
+
+    // --------------- DELETE happy path 204 ---------------
+    @Test
+    fun `DELETE users returns 204`() {
+        val id = UUID.randomUUID()
+        whenever(userService.deleteUser(id)).thenReturn(true)
+
+        mvc.perform(delete("/api/users/$id"))
+            .andExpect(status().isNoContent)
+    }
+
+    // --------------- DELETE 404 ---------------
+    @Test
+    fun `DELETE users returns 404 when not found`() {
+        val id = UUID.randomUUID()
+        whenever(userService.deleteUser(id)).thenReturn(false)
+
+        mvc.perform(delete("/api/users/$id"))
+            .andExpect(status().isNotFound)
+    }
+
 }
 
