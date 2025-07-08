@@ -81,7 +81,18 @@ Si se desea realizar las pruebas referentes al funcionamiento del proyecto, ejec
 ```
 src/test/kotlin/com/puce/claudsdaily/service/
 ```
-4. Al entrar en el test, hacer clic derecho sobre la clase de la prueba y dar click en run "Nombredeltest"
+3. Al entrar en el test, hacer clic derecho sobre la clase de la prueba y dar click en run "Nombredeltest"
+   
+
+## Ejecucion de test de controllers
+
+1. Abrir el proyecto en IntelliJ IDEA.
+2. En el panel izquierdo (proyect) navegar hacia la ubicacion de los test
+```
+src/test/kotlin/com/puce/claudsdaily/controller/
+```
+3. Al entrar en el test, hacer clic derecho sobre la clase de la prueba y dar click en run "Nombredeltest"
+
 
 
 ## Acceso al Pgadmin
